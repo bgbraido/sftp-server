@@ -1,0 +1,53 @@
+# SFTP Server Configuration
+# This file contains configuration for the SFTP server
+
+# Basic SFTP Server with user management
+sftp:
+  image: atmoz/sftp
+  container_name: sftp-server
+  ports:
+    - "${SFTP_PORT:-2222}:22"
+  environment:
+    # Format: username:password:uid[:gid[:dir1[:dir2[:...]]]]
+    SFTP_USERS: ${SFTP_USERS:-testuser:testpass:1001}
+  volumes:
+    # Mount directories for SFTP users
+    - ./data:/home/testuser/upload
+    - ./ssh_keys:/etc/ssh/keys
+  restart: unless-stopped
+
+# Alternative: Using SSH keys instead of passwords
+# Uncomment below for key-based authentication
+sftp-keys:
+  image: atmoz/sftp
+  container_name: sftp-server-keys
+  ports:
+    - "2222:22"
+  volumes:
+    # Mount SSH public keys
+    - ./ssh_keys/public_keys:/home/testuser/.ssh/keys:ro
+    # Mount data directory
+    - ./data:/home/testuser/upload
+  environment:
+    SFTP_USERS: testuser:testpass:1001
+  restart: unless-stopped
+
+# Advanced: Custom SFTP configuration
+# Use this template for more control over SSH settings
+sftp-advanced:
+  image: atmoz/sftp
+  container_name: sftp-server-advanced
+  ports:
+    - "2222:22"
+  environment:
+    SFTP_USERS: |
+      user1:pass1:1001
+      user2:pass2:1002
+      admin:adminpass:1000
+  volumes:
+    - ./ssh_config/sshd_config:/etc/ssh/sshd_config:ro
+    - ./ssh_keys:/etc/ssh/keys
+    - ./data/user1:/home/user1/upload
+    - ./data/user2:/home/user2/upload
+    - ./data/admin:/home/admin
+  restart: unless-stopped

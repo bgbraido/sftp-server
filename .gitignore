@@ -1,0 +1,42 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# SSH Keys and sensitive data
+ssh_keys/
+!ssh_keys/.gitkeep
+
+# Data directories
+data/
+uploads/
+
+# Docker
+docker-compose.override.yml
+
+# IDE and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS specific
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Node (if using any tools)
+node_modules/
+npm-debug.log
+
+# Python (if using any tools)
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
