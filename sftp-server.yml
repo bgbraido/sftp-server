@@ -7,8 +7,7 @@ sftp:
   container_name: sftp-server
   ports:
     - "${SFTP_PORT:-2222}:22"
-  environment:
-    # Format: username:password:uid[:gid[:dir1[:dir2[:...]]]]
+  environment:    
     SFTP_USERS: ${SFTP_USERS:-testuser:testpass:1001}
   volumes:
     # Mount directories for SFTP users
