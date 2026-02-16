@@ -6,8 +6,28 @@ A complete Docker Compose setup for running an SFTP (SSH File Transfer Protocol)
 
 ### 1. Start the Server
 
+Docker Compose automatically loads the `.env` file from the current directory:
+
 ```bash
 docker-compose up -d
+```
+
+Alternatively, you can explicitly specify the `.env` file:
+
+```bash
+docker-compose --env-file .env up -d
+```
+
+Or use a different environment file:
+
+```bash
+docker-compose --env-file .env.production up -d
+```
+
+You can also verify that environment variables are correctly loaded:
+
+```bash
+docker-compose config
 ```
 
 ### 2. Connect to the Server
@@ -140,21 +160,48 @@ SFTP_USERS=testuser::1001
 
 ## Useful Commands
 
+### Docker Compose Commands
+
 ```bash
-# View logs
+# Start the server (automatically loads .env)
+docker-compose up -d
+
+# Start with explicit .env file
+docker-compose --env-file .env up -d
+
+# Start with different environment file
+docker-compose --env-file .env.production up -d
+
+# Verify environment variables are loaded correctly
+docker-compose config
+
+# View logs in real-time
 docker-compose logs -f sftp-server
 
 # Stop the server
 docker-compose down
 
+# Check status of services
+docker-compose ps
+
 # Rebuild the image
 docker-compose build --no-cache
+```
 
+### Docker Container Commands
+
+```bash
 # Access container shell
 docker exec -it sftp-server bash
 
 # List active connections
 docker exec sftp-server ps aux
+
+# View container logs
+docker logs sftp-server
+
+# Restart the container
+docker restart sftp-server
 ```
 
 ## Security Recommendations
